@@ -7,7 +7,6 @@
  * Assignment 5 - Registrar Office Database
  */
 
-
 #include "Faculty.h"
 
 // default constructor

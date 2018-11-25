@@ -7,7 +7,6 @@
  * Assignment 5 - Registrar Office Database
  */
 
-
 #ifndef FACULTY_H
 #define FACULTY_H
 

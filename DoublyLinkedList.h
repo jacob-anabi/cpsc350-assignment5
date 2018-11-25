@@ -1,10 +1,10 @@
 /**
  * @author Jacob Anabi
- * @date 2018-10-30
+ * @date 2018-11-22
  * @version 1.0
  * 2294644
  * CPSC 350
- * Assignment 4 - Registrar Office Simulation
+ * Assignment 5 - Registrar Office Database
  */
 
 #ifndef DOUBLYLINKEDLIST_H
