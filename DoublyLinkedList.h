@@ -84,7 +84,7 @@ public:
      * Returns the data in the node at the back
      * @return - the data of the back node
      */
-    T peekBack();
+    T peekBack() const;
 
     // overridden operations
     // front operations
@@ -102,7 +102,7 @@ public:
      * Returns the data in the node at the front
      * @return - the data of the front node
      */
-    T peekFront();
+    T peekFront() const;
 
     // miscellaneous operations
     /**
@@ -122,28 +122,35 @@ public:
      * @param val - the value to search for
      * @return - the position the value is at (-1 if it is not in the list)
      */
-    int search(T val);
+    int search(T val) const;
     /**
      * Prints the list
      */
-    void printList();
+    void printList() const;
     /**
      * Returns the date of the node at the specified position
      * @param pos - the position to check at
      * @return - the data at the specified node
      */
-    T peekPos(unsigned int pos);
+    T peekPos(unsigned int pos) const;
     /**
      * Checks if the list is empty
      * @return - a boolean value that returns true if the list is empty false otherwise
      */
-    bool isEmpty();
+    bool isEmpty() const;
     /**
      * Gets the size of the linked list
      * @return - the size of the linked list
      */
-    unsigned int getSize();
+    unsigned int getSize() const;
 
+    // operator overloading
+    /**
+     * Overloads the = operator
+     * @param list - the list to set this list equal to
+     * @return - our list with the copied over values
+     */
+    DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& list);
 private:
     unsigned int size;
     listNode<T>* front;
@@ -173,7 +180,25 @@ DoublyLinkedList<T>::DoublyLinkedList(T data)
 template<class T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList& list)
 {
-// implementation is left as an exercise for the reader
+    if (list.getSize() > 0)
+    {
+        auto* initNode = new listNode<T>(list.peekPos(0));
+        initNode->next = nullptr;
+        initNode->prev = nullptr;
+        front = initNode;
+        back = initNode;
+        for (unsigned int i = 1; i < list.getSize(); ++i)
+        {
+            insertBack(list.peekPos(i));
+        }
+        size = list.getSize();
+    }
+    else
+    {
+        size = 0;
+        front = nullptr;
+        back = nullptr;
+    }
 }
 
 // destructor
@@ -187,7 +212,7 @@ DoublyLinkedList<T>::~DoublyLinkedList()
 }
 
 // unique methods
-// inserts treeNode of data in the back of the linked list
+// inserts listNode of data in the back of the linked list
 template<class T>
 void DoublyLinkedList<T>::insertBack(T data)
 {
@@ -205,7 +230,7 @@ void DoublyLinkedList<T>::insertBack(T data)
     ++size;
 }
 
-// removes the back treeNode
+// removes the back listNode
 template<class T>
 T DoublyLinkedList<T>::removeBack()
 {
@@ -214,11 +239,11 @@ T DoublyLinkedList<T>::removeBack()
     {
         throw LinkedListException("Remove operation attempted on empty list");
     }
-    if (back->prev == nullptr) // only treeNode in the list
+    if (back->prev == nullptr) // only listNode in the list
     {
        front = nullptr;
     }
-    else // not the only treeNode in the list
+    else // not the only listNode in the list
     {
         back->prev->next = nullptr;
     }
@@ -231,15 +256,15 @@ T DoublyLinkedList<T>::removeBack()
     return delData;
 }
 
-// returns the data of the back treeNode
+// returns the data of the back listNode
 template<class T>
-T DoublyLinkedList<T>::peekBack()
+T DoublyLinkedList<T>::peekBack() const
 {
     return back->data;
 }
 
 // overridden operations
-// insert treeNode of data in the front of the linked list
+// insert listNode of data in the front of the linked list
 template<class T>
 void DoublyLinkedList<T>::insertFront(T data)
 {
@@ -257,7 +282,7 @@ void DoublyLinkedList<T>::insertFront(T data)
     ++size;
 }
 
-// remove front treeNode from the linked list
+// remove front listNode from the linked list
 template<class T>
 T DoublyLinkedList<T>::removeFront()
 {
@@ -266,11 +291,11 @@ T DoublyLinkedList<T>::removeFront()
     {
         throw LinkedListException("Remove operation attempted on empty list");
     }
-    if (front->next == nullptr) // only treeNode in the list
+    if (front->next == nullptr) // only listNode in the list
     {
         back = nullptr;
     }
-    else // more than one treeNode in the list
+    else // more than one listNode in the list
     {
         front->next->prev = nullptr;
     }
@@ -283,14 +308,14 @@ T DoublyLinkedList<T>::removeFront()
     return  delData;
 }
 
-// returns the data of the front treeNode
+// returns the data of the front listNode
 template<class T>
-T DoublyLinkedList<T>::peekFront()
+T DoublyLinkedList<T>::peekFront() const
 {
     return front->data;
 }
 
-// removes treeNode at specified position
+// removes listNode at specified position
 template<class T>
 T DoublyLinkedList<T>::removePos(unsigned int pos)
 {
@@ -334,7 +359,7 @@ T DoublyLinkedList<T>::removePos(unsigned int pos)
     return delData;
 }
 
-// removes treeNode of specified value
+// removes listNode of specified value
 template<class T>
 T DoublyLinkedList<T>::remove(T value)
 {
@@ -378,8 +403,12 @@ T DoublyLinkedList<T>::remove(T value)
 
 // searches for the position of some specified value (-1 if not found)
 template<class T>
-int DoublyLinkedList<T>::search(T val)
+int DoublyLinkedList<T>::search(T val) const
 {
+    if (isEmpty())
+    {
+        return -1;
+    }
     int currentPos = 0;
     listNode<T>* currentNode = front;
     while (currentNode->data != val)
@@ -394,9 +423,9 @@ int DoublyLinkedList<T>::search(T val)
     return currentPos;
 }
 
-// prints each treeNode in the list
+// prints each listNode in the list
 template<class T>
-void DoublyLinkedList<T>::printList()
+void DoublyLinkedList<T>::printList() const
 {
     listNode<T>* currentNode = front;
     while (currentNode != nullptr)
@@ -423,9 +452,9 @@ void DoublyLinkedList<T>::printList()
     std::cout << std::endl;
 }
 
-// returns the data of the treeNode at the specified position
+// returns the data of the listNode at the specified position
 template<class T>
-T DoublyLinkedList<T>::peekPos(unsigned int pos)
+T DoublyLinkedList<T>::peekPos(unsigned int pos) const
 {
     if (pos >= size) // remove at position greater than the size of the list
     {
@@ -446,16 +475,42 @@ T DoublyLinkedList<T>::peekPos(unsigned int pos)
 
 // determines if the list is empty or not
 template<class T>
-bool DoublyLinkedList<T>::isEmpty()
+bool DoublyLinkedList<T>::isEmpty() const
 {
     return (size == 0);
 }
 
 // gets the size of the linked list
 template<class T>
-unsigned int DoublyLinkedList<T>::getSize()
+unsigned int DoublyLinkedList<T>::getSize() const
 {
     return size;
+}
+
+// = operator
+template<class T>
+DoublyLinkedList<T> &DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &list)
+{
+    if (list.getSize() > 0)
+    {
+        auto* initNode = new listNode<T>(list.peekPos(0));
+        initNode->next = nullptr;
+        initNode->prev = nullptr;
+        this->front = initNode;
+        this->back = initNode;
+        for (unsigned int i = 1; i < list.getSize(); ++i)
+        {
+            insertBack(list.peekPos(i));
+        }
+        this->size = list.getSize();
+    }
+    else
+    {
+        this->size = 0;
+        this->front = nullptr;
+        this->back = nullptr;
+    }
+    return *this;
 }
 
 #endif // DOUBLYLINKEDLIST_H

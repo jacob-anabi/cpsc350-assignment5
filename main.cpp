@@ -11,18 +11,12 @@
 #include "DoublyLinkedList.h"
 #include "GenStack.h"
 #include "BST.h"
+#include "Student.h"
+#include "Faculty.h"
 
 int main(int argc, char** argv)
 {
-    auto* tree = new BST<int>();
-    tree->insert(5);
-    tree->insert(10);
-    tree->insert(3);
-    tree->insert(40);
-    tree->insert(56);
-    tree->deleteNode(10);
-    tree->printTree();
-    delete tree;
-    tree->printTree();
-    tree->printTree();
+    Faculty* faculty = new Faculty();
+    faculty->addAdviseeId(5091);
+    std::cout << *faculty << std::endl;
 }

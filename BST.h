@@ -269,7 +269,7 @@ bool BST<T>::deleteNode(T value)
             parent->right = current->right;
         }
     }
-    else // it has two childrent
+    else // it has two children
     {
         treeNode<T>* successor = getSuccessor(current);
         if (current == root)
