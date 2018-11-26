@@ -277,7 +277,7 @@ int main(int argc, char** argv)
             << "df - delete faculty member" << '\n'
             << "csa - change student adviser given student id and new adviser id" << '\n'
             << "raf - remove an advisee from faculty member given faculty memeber id and advisee id" << '\n'
-            << "rb - rollback" << '\n'
+            << "rb - rollback (UNSTABLE)" << '\n'
             << "q - exit" << '\n'
             << "-------------------------------------------------------------------------" << std::endl;
         }
