@@ -383,7 +383,6 @@ DoublyLinkedList<T> BST<T>::preOrderNodes()
 template<class T>
 void BST<T>::resetPreOrderNodes()
 {
-    delete preOrderNode;
 }
 
 // recursively print the tree in-order

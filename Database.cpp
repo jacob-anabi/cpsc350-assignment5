@@ -275,10 +275,10 @@ void Database::setRandomAdviser(int id)
     unsigned int pos = 0;
     int adId = 0;
     Student tempStudent(id, " ", " ", " ", 5.0, 10);
+    DoublyLinkedList<Faculty> preOrderFaculty = faculty->preOrderNodes();
 
     while (true)
     {
-        DoublyLinkedList<Faculty> preOrderFaculty = faculty->preOrderNodes();
         pos = rand() % ((preOrderFaculty.getSize() - 1) - 0 + 1) + 0; // random number bounded [0, size-1]
         adId = preOrderFaculty.peekPos(pos).getId();
         if (adId != students->search(tempStudent)->getAdvierId())
