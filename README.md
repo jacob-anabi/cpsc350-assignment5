@@ -73,4 +73,4 @@ https://stackoverflow.com/a/4067145
 http://www.cplusplus.com/reference/cstdlib/srand/
 
 ### NOTES
-No spaces or commas, rollback not fully finished, delete unstable
+No spaces or commas, rollback not fully finished, delete unstable, will attempt fix on own time for learning
