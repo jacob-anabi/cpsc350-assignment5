@@ -7,6 +7,9 @@
  * Assignment 5 - Registrar Office Database
  */
 
+#include <iostream>
+#include <string>
+#include <fstream>
 #include "Student.h"
 
 // default constructor
@@ -41,6 +44,20 @@ int Student::getAdvierId()
 void Student::changeAdvisor(int adviserId)
 {
     this->adviserId = adviserId;
+}
+
+// serialize object
+void Student::serialize(std::ofstream& file)
+{
+    if (file.good()) // if the file is good
+    {
+        file <<this->id << "," <<
+                this->name << "," <<
+                this->level << "," <<
+                this->studyMajor << "," <<
+                this->gpa << "," <<
+                this->adviserId << '\n';
+    }
 }
 
 // = operator

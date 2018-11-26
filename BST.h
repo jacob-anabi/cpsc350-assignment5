@@ -11,6 +11,8 @@
 #define BST_H
 
 #include <iostream>
+#include "DoublyLinkedList.h"
+#include "BSTException.h"
 
 template <class T>
 struct treeNode
@@ -68,6 +70,12 @@ public:
      */
     bool contains(T value);
     /**
+     * Searches the tree for a value
+     * @param value - the value to search for
+     * @return - the node
+     */
+    T* search(T value);
+    /**
      * Delete a node with the specified value
      * @param value - the value of the node to delete
      * @return - a boolean value if the node was deleted
@@ -82,9 +90,19 @@ public:
      * Prints the tree in-order
      */
     void printTree();
+    /**
+     * Return linked list of preorder nodes
+     * @return - the preorder nodes
+     */
+    DoublyLinkedList<T> preOrderNodes();
+    /**
+     * Reset preorder list of nodes
+     */
+    void resetPreOrderNodes();
 
 private:
     treeNode<T>* root;
+    DoublyLinkedList<T> preOrderNode;
 
     /**
      * Prints the tree recursively using an in-order traversal
@@ -103,6 +121,12 @@ private:
      * @param root - the root node
      */
     void destructRec(treeNode<T>* root);
+
+    /**
+     * Make linked list of preorder nodes
+    * @param root - the root node
+    */
+    void recPreOrderNodes(treeNode<T>* root);
 };
 
 // default constructor
@@ -190,6 +214,36 @@ bool BST<T>::contains(T value)
         }
     }
     return true;
+}
+
+// searches the tree for a node
+template<class T>
+T* BST<T>::search(T value)
+{
+    if (isEmpty())
+    {
+        throw BSTException("Value not found");
+    }
+    else // not an empty tree continue to search
+    {
+        treeNode<T>* current = root;
+        while (current->key != value)
+        {
+            if (value < current->key)
+            {
+                current = current->left;
+            }
+            else
+            {
+                current = current->right;
+            }
+            if (current == nullptr)
+            {
+                throw BSTException("Value not found");
+            }
+        }
+        return &current->key;
+    }
 }
 
 // delete a treeNode (oh boy)
@@ -302,6 +356,34 @@ template<class T>
 void BST<T>::printTree()
 {
     recPrint(root);
+}
+
+// return a random node
+template<class T>
+void BST<T>::recPreOrderNodes(treeNode<T>* root)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+    this->preOrderNode.insertBack(root->key);
+    recPreOrderNodes(root->left);
+    recPreOrderNodes(root->right);
+}
+
+// return list of preorder nodes
+template<class T>
+DoublyLinkedList<T> BST<T>::preOrderNodes()
+{
+    recPreOrderNodes(root);
+    return this->preOrderNode;
+}
+
+// reset list of preorder nodes
+template<class T>
+void BST<T>::resetPreOrderNodes()
+{
+    delete preOrderNode;
 }
 
 // recursively print the tree in-order

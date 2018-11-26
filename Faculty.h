@@ -54,6 +54,16 @@ public:
      * @param adviseeId
      */
     void removeAdviseeId(int adviseeId);
+    /**
+     * Returns id
+     * @return - the id
+     */
+    int getId();
+    /**
+     * Serilaize the object
+     * @param file - the output file
+     */
+    void serialize(std::ofstream& file);
 
     // operator overloading
     /**

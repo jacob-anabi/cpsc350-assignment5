@@ -84,7 +84,12 @@ public:
      * Returns the data in the node at the back
      * @return - the data of the back node
      */
-    T peekBack() const;
+    T peekBack();
+    /**
+     * Returns the data in the node at the back
+     * @return - the data of the back node
+     */
+    T* peekBackPointer();
 
     // overridden operations
     // front operations
@@ -102,7 +107,7 @@ public:
      * Returns the data in the node at the front
      * @return - the data of the front node
      */
-    T peekFront() const;
+    T peekFront();
 
     // miscellaneous operations
     /**
@@ -122,11 +127,11 @@ public:
      * @param val - the value to search for
      * @return - the position the value is at (-1 if it is not in the list)
      */
-    int search(T val) const;
+    int search(T val);
     /**
      * Prints the list
      */
-    void printList() const;
+    void printList();
     /**
      * Returns the date of the node at the specified position
      * @param pos - the position to check at
@@ -151,6 +156,7 @@ public:
      * @return - our list with the copied over values
      */
     DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& list);
+
 private:
     unsigned int size;
     listNode<T>* front;
@@ -258,9 +264,16 @@ T DoublyLinkedList<T>::removeBack()
 
 // returns the data of the back listNode
 template<class T>
-T DoublyLinkedList<T>::peekBack() const
+T DoublyLinkedList<T>::peekBack()
 {
     return back->data;
+}
+
+// return pointer of back
+template<class T>
+T *DoublyLinkedList<T>::peekBackPointer()
+{
+    return &back->data;
 }
 
 // overridden operations
@@ -310,7 +323,7 @@ T DoublyLinkedList<T>::removeFront()
 
 // returns the data of the front listNode
 template<class T>
-T DoublyLinkedList<T>::peekFront() const
+T DoublyLinkedList<T>::peekFront()
 {
     return front->data;
 }
@@ -403,7 +416,7 @@ T DoublyLinkedList<T>::remove(T value)
 
 // searches for the position of some specified value (-1 if not found)
 template<class T>
-int DoublyLinkedList<T>::search(T val) const
+int DoublyLinkedList<T>::search(T val)
 {
     if (isEmpty())
     {
@@ -425,7 +438,7 @@ int DoublyLinkedList<T>::search(T val) const
 
 // prints each listNode in the list
 template<class T>
-void DoublyLinkedList<T>::printList() const
+void DoublyLinkedList<T>::printList()
 {
     listNode<T>* currentNode = front;
     while (currentNode != nullptr)

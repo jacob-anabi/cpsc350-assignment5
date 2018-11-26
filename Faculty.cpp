@@ -7,6 +7,9 @@
  * Assignment 5 - Registrar Office Database
  */
 
+#include <iostream>
+#include <string>
+#include <fstream>
 #include "Faculty.h"
 
 // default constructor
@@ -33,7 +36,7 @@ Faculty::Faculty(const Faculty& faculty)
 // destructor
 Faculty::~Faculty()
 {
-    delete adviseesIds;
+    //delete adviseesIds;
 }
 
 // gets the advisee ids
@@ -54,6 +57,29 @@ void Faculty::removeAdviseeId(int adviseeId)
     if (adviseesIds->search(adviseeId) != -1) // contains the id
     {
         adviseesIds->remove(adviseeId);
+    }
+}
+
+// return id
+int Faculty::getId()
+{
+    return id;
+}
+
+// serialize the object
+void Faculty::serialize(std::ofstream &file)
+{
+    if (file.good()) // if the file is good
+    {
+        file << this->id << "," <<
+                this->name << "," <<
+                this->level << "," <<
+                this->department << ",";
+        for (unsigned int i = 0; i < adviseesIds->getSize(); ++i)
+        {
+            file << adviseesIds->peekPos(i) << ",";
+        }
+        file << '\n';
     }
 }
 

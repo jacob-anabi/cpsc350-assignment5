@@ -51,6 +51,11 @@ public:
      * @param adviserId - the adviser's id
      */
     void changeAdvisor(int adviserId);
+    /**
+     * Serialize the object
+     * @param file - the output file
+     */
+    void serialize(std::ofstream& file);
 
     // operator overloading
     /**

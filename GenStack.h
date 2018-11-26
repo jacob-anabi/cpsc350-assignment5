@@ -43,6 +43,11 @@ public:
      * @return - the top element that is pushed off
      */
     T pop();
+    /**
+     * peeks address of top element
+     * @return - the address of the top element
+     */
+    T* peekPointer();
 
     /**
      * peeks at the top element of the stack
@@ -66,8 +71,6 @@ public:
      * @return - an unsigned int which represents the size of the stack
      */
     unsigned int getSize();
-
-    // TODO: implement -- operator overload
 
 private:
     DoublyLinkedList<T>* list; // the linked list to use
@@ -124,6 +127,17 @@ T GenStack<T>::peek()
         throw InvalidStackOperationException("Peek operation performed on empty stack.");
     }
     return list->peekBack(); // return the element at the top of the stack
+}
+
+// peeks address of top element
+template<class T>
+T* GenStack<T>::peekPointer()
+{
+    if (isEmpty())
+    {
+        throw InvalidStackOperationException("Peek operation performed on empty stack.");
+    }
+    return list->peekBackPointer(); // return the element at the top of the stack
 }
 
 template<class T>
