@@ -51,12 +51,12 @@ void Student::serialize(std::ofstream& file)
 {
     if (file.good()) // if the file is good
     {
-        file <<this->id << "," <<
+        file << this->id << "," <<
                 this->name << "," <<
                 this->level << "," <<
                 this->studyMajor << "," <<
                 this->gpa << "," <<
-                this->adviserId << '\n';
+                this->adviserId << "," << "\r\n";
     }
 }
 

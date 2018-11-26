@@ -14,10 +14,9 @@
 
 int main(int argc, char** argv)
 {
-    auto* student = new Student();
-    delete student;
     srand(static_cast<unsigned>(time(nullptr)));
     Database* database = new Database();
+    database->deserilialize();
     std::string input;
 
     while (true)

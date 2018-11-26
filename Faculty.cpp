@@ -79,7 +79,7 @@ void Faculty::serialize(std::ofstream &file)
         {
             file << adviseesIds->peekPos(i) << ",";
         }
-        file << '\n';
+        file << "\r\n";
     }
 }
 

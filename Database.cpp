@@ -262,9 +262,11 @@ void Database::changeAdviser(int studentId, int adviserId)
         students->search(tempStudent)->changeAdvisor(adviserId);
         faculty->search(tempFaculty)->addAdviseeId(studentId);
     }
-    Faculty modFaculty(modAdID, " ", " ", " ");
-    faculty->search(modFaculty)->removeAdviseeId(studentId);
-
+    if (modAdID != 0)
+    {
+        Faculty modFaculty(modAdID, " ", " ", " ");
+        faculty->search(modFaculty)->removeAdviseeId(studentId);
+    }
 }
 
 // set random adviser
@@ -339,6 +341,149 @@ void Database::exit()
         preOrderFaculty.peekPos(i).serialize(facultyFile);
         facultyFile.close();
         facultyFile.open("facultyTable.txt", std::ios::app);
+    }
+
+    studentFile.close();
+    facultyFile.close();
+}
+
+// deserialize the database
+void Database::deserilialize()
+{
+    std::string line;
+    int count = 0;
+    std::string info;
+    std::ifstream studentFile;
+    std::ifstream facultyFile;
+    studentFile.open("studentTable.txt");
+    facultyFile.open("facultyTable.txt");
+
+    // student info
+    int sId = 0;
+    std::string sName;
+    std::string sLevel;
+    std::string studyMajor;
+    double gpa = 0.0;
+    int adviserID = 0;
+
+    if (studentFile.peek() != std::ifstream::traits_type::eof()) // checks if the file is not empty
+    {
+        while (getline(studentFile, line))
+        {
+            if (line.empty())
+            {
+                break;
+            }
+            for (char c : line)
+            {
+                if (c == ',')
+                {
+                    switch (count)
+                    {
+                        case 0:
+                            sId = std::stoi(info);
+                            break;
+                        case 1:
+                            sName = info;
+                            break;
+                        case 2:
+                            sLevel = info;
+                            break;
+                        case 3:
+                            studyMajor = info;
+                            break;
+                        case 4:
+                            gpa = std::stod(info);
+                            break;
+                        default:
+                            adviserID = std::stoi(info);
+                            break;
+                    }
+                    info = "";
+                    ++count;
+                }
+                else
+                {
+                    info += c;
+                }
+            }
+            Student student(sId, sName, sLevel, studyMajor, gpa, adviserID);
+            students->insert(student);
+            count = 0;
+            info = "";
+        }
+    }
+
+    count = 0;
+    info = "";
+
+    // faculty info
+    int fId = 0;
+    std::string fName;
+    std::string fLevel;
+    std::string department;
+
+    if (facultyFile.peek() != std::ifstream::traits_type::eof()) // checks if the file is not empty
+    {
+        while (getline(facultyFile, line))
+        {
+            if (line.empty())
+            {
+                break;
+            }
+            for (char c : line)
+            {
+                if (c == ',')
+                {
+                    switch (count)
+                    {
+                        case 0:
+                            fId = std::stoi(info);
+                            break;
+                        case 1:
+                            fName = info;
+                            break;
+                        case 2:
+                            fLevel = info;
+                            break;
+                        case 3:
+                            department = info;
+                            break;
+                        default:
+                            break;
+                    }
+                    info = "";
+                    ++count;
+                }
+                else
+                {
+                    info += c;
+                }
+            }
+            Faculty faculty1(fId, fName, fLevel, department);
+            count = 0;
+            info = "";
+
+            for (char c : line)
+            {
+                if (c == ',')
+                {
+                    if (count > 3)
+                    {
+                        faculty1.addAdviseeId(std::stoi(info));
+                    }
+                    info = "";
+                    ++count;
+                }
+                else
+                {
+                    info += c;
+                }
+            }
+            faculty->insert(faculty1);
+            count = 0;
+            info = "";
+        }
     }
 
     studentFile.close();

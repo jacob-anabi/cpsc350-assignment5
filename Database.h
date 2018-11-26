@@ -95,6 +95,10 @@ public:
      * Save and exit
      */
     void exit();
+    /**
+     * deserialize the database
+     */
+    void deserilialize();
 
 private:
     BST<Student>* students;
