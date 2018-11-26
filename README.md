@@ -5,7 +5,7 @@ Jacob Anabi
 
 2018-11-25
 
-1.0
+0.9
 
 2294644
 
@@ -71,3 +71,6 @@ https://stackoverflow.com/a/34170243
 https://stackoverflow.com/a/4067145
 
 http://www.cplusplus.com/reference/cstdlib/srand/
+
+### NOTES
+No spaces or commas, rollback not fully finished
